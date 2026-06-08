@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "8.13.0"
 coreKtx = "1.18.0"
 gson = "2.14.0"
 junit = "4.13.2"
@@ -47,4 +47,3 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
