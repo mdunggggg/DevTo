@@ -1,0 +1,31 @@
+package com.example.domain.model
+
+data class Article(
+    val typeOf: String,
+    val id: Int,
+    val title: String,
+    val description: String,
+    val readablePublishDate: String,
+    val slug: String,
+    val path: String,
+    val url: String,
+    val commentsCount: Int,
+    val publicReactionsCount: Int,
+    val collectionId: Int?,
+    val publishedTimestamp: String,
+    val positiveReactionsCount: Int,
+    val coverImage: String?,
+    val socialImage: String,
+    val canonicalUrl: String,
+    val createdAt: String,
+    val editedAt: String?,
+    val crosspostedAt: String?,
+    val publishedAt: String,
+    val lastCommentAt: String,
+    val readingTimeMinutes: Int,
+    val tagList: List<String>,
+    val tags: String,
+    val user: User,
+    val organization: Organization?,
+    val flareTag: FlareTag?
+)
