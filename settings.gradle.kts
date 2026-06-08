@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "DevTo"
 include(":app")
- 
+include(":core")
