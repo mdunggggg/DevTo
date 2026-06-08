@@ -11,6 +11,8 @@ class FetchArticleUseCase(
 ) : UseCase<ArticleParam, Result<List<Article>, Throwable>>() {
 
     override suspend fun invoke(input: ArticleParam): Result<List<Article>, Throwable> {
+        if (input.page < 1) return Result.Failure(IllegalArgumentException("Page number must be greater than 0"))
+        if (input.perPage > 30) return Result.Failure(IllegalArgumentException("Page max is 30"))
         return articleRepository.fetchArticles(input)
     }
 }
