@@ -1,5 +1,6 @@
 package com.example.core.network
 
+import android.util.Log
 import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -35,7 +36,9 @@ class ClientBuilder internal constructor(){
 }
 
 class LoggingBuilder internal constructor() {
-    var level : HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
+    var levelLog : HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
 
-    fun build() : Interceptor = HttpLoggingInterceptor().apply { setLevel(level) }
+    fun build() : Interceptor = HttpLoggingInterceptor().apply {
+        level = levelLog
+    }
 }

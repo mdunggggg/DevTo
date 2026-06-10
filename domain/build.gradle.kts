@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,6 +38,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    //     Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
+
 
     implementation(project(":core"))
 }

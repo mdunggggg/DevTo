@@ -52,6 +52,9 @@ dependencies {
     androidTestImplementation(libs.androidx.room.testing)
     implementation(libs.androidx.room.paging)
 
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 

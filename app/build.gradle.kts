@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.paging.common)
+    implementation(libs.androidx.paging.compose)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
@@ -65,4 +68,9 @@ dependencies {
 //     Hilt
     implementation(libs.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
+
+    implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 }

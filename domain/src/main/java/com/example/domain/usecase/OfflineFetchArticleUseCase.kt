@@ -1,16 +1,14 @@
 package com.example.domain.usecase
 
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import com.example.core.result.Result
 import com.example.core.usecase.FlowUseCase
-import com.example.core.usecase.UseCase
 import com.example.domain.model.Article
 import com.example.domain.model.params.ArticleParam
 import com.example.domain.repo.ArticleRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class OfflineFetchArticleUseCase(
+class OfflineFetchArticleUseCase @Inject constructor(
     private val articleRepository: ArticleRepository
 ) : FlowUseCase<ArticleParam, PagingData<Article>>() {
 
