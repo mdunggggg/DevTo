@@ -1,5 +1,7 @@
 package com.example.data.mapper
 
+import com.example.data.local.model.ArticleEntity
+import com.example.data.local.model.ArticleWithRelations
 import com.example.data.remote.model.ArticleResponse
 import com.example.domain.model.Article
 
@@ -36,5 +38,117 @@ fun ArticleResponse.toDomain(): Article {
 }
 
 fun List<ArticleResponse>.toDomain(): List<Article> {
+    return map { it.toDomain() }
+}
+
+fun ArticleResponse.toEntity(): ArticleEntity {
+    return ArticleEntity(
+        id = id,
+        typeOf = typeOf,
+        title = title,
+        description = description,
+        coverImage = coverImage,
+        readablePublishDate = readablePublishDate,
+        socialImage = socialImage,
+        tagList = tagList,
+        tags = tags,
+        slug = slug,
+        path = path,
+        url = url,
+        canonicalUrl = canonicalUrl,
+        commentsCount = commentsCount,
+        positiveReactionsCount = positiveReactionsCount,
+        publicReactionsCount = publicReactionsCount,
+        collectionId = collectionId,
+        createdAt = createdAt,
+        editedAt = editedAt,
+        crosspostedAt = crosspostedAt,
+        publishedAt = publishedAt,
+        lastCommentAt = lastCommentAt,
+        publishedTimestamp = publishedTimestamp,
+        readingTimeMinutes = readingTimeMinutes
+    )
+}
+
+fun Article.toEntity(): ArticleEntity {
+    return ArticleEntity(
+        id = id,
+        typeOf = typeOf,
+        title = title,
+        description = description,
+        coverImage = coverImage,
+        readablePublishDate = readablePublishDate,
+        socialImage = socialImage,
+        tagList = tagList,
+        tags = tags,
+        slug = slug,
+        path = path,
+        url = url,
+        canonicalUrl = canonicalUrl,
+        commentsCount = commentsCount,
+        positiveReactionsCount = positiveReactionsCount,
+        publicReactionsCount = publicReactionsCount,
+        collectionId = collectionId,
+        createdAt = createdAt,
+        editedAt = editedAt,
+        crosspostedAt = crosspostedAt,
+        publishedAt = publishedAt,
+        lastCommentAt = lastCommentAt,
+        publishedTimestamp = publishedTimestamp,
+        readingTimeMinutes = readingTimeMinutes
+    )
+}
+
+fun ArticleResponse.toLocal(): ArticleWithRelations {
+    return ArticleWithRelations(
+        article = toEntity(),
+        user = user.toEntity(id),
+        organization = organization?.toEntity(id),
+        flareTag = flareTag?.toEntity(id)
+    )
+}
+
+fun Article.toLocal(): ArticleWithRelations {
+    return ArticleWithRelations(
+        article = toEntity(),
+        user = user.toEntity(id),
+        organization = organization?.toEntity(id),
+        flareTag = flareTag?.toEntity(id)
+    )
+}
+
+fun ArticleWithRelations.toDomain(): Article {
+    return Article(
+        typeOf = article.typeOf,
+        id = article.id,
+        title = article.title,
+        description = article.description,
+        readablePublishDate = article.readablePublishDate,
+        slug = article.slug,
+        path = article.path,
+        url = article.url,
+        commentsCount = article.commentsCount,
+        publicReactionsCount = article.publicReactionsCount,
+        collectionId = article.collectionId,
+        publishedTimestamp = article.publishedTimestamp,
+        positiveReactionsCount = article.positiveReactionsCount,
+        coverImage = article.coverImage,
+        socialImage = article.socialImage,
+        canonicalUrl = article.canonicalUrl,
+        createdAt = article.createdAt,
+        editedAt = article.editedAt,
+        crosspostedAt = article.crosspostedAt,
+        publishedAt = article.publishedAt,
+        lastCommentAt = article.lastCommentAt,
+        readingTimeMinutes = article.readingTimeMinutes,
+        tagList = article.tagList,
+        tags = article.tags,
+        user = user.toDomain(),
+        organization = organization?.toDomain(),
+        flareTag = flareTag?.toDomain()
+    )
+}
+
+fun List<ArticleWithRelations>.toDomainFromLocal(): List<Article> {
     return map { it.toDomain() }
 }
