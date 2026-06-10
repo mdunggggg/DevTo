@@ -10,6 +10,6 @@ class ArticleRepositoryImpl(
     private val remoteDataSource: ArticleRemoteDataSource
 ): ArticleRepository {
     override suspend fun fetchArticles(params: ArticleParam): Result<List<Article>, Throwable> {
-        // TODO:
+        return Result.failure(Exception("TODO"))
     }
 }
