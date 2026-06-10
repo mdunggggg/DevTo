@@ -38,7 +38,6 @@ ksp {
 dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.room.testing)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -51,6 +50,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     androidTestImplementation(libs.androidx.room.testing)
     implementation(libs.androidx.room.paging)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     implementation(project(":domain"))
     implementation(project(":core"))

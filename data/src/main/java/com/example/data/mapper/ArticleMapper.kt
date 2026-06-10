@@ -41,7 +41,7 @@ fun List<ArticleResponse>.toDomain(): List<Article> {
     return map { it.toDomain() }
 }
 
-fun ArticleResponse.toEntity(): ArticleEntity {
+fun ArticleResponse.toEntity(cacheKey: String): ArticleEntity {
     return ArticleEntity(
         id = id,
         typeOf = typeOf,
@@ -66,51 +66,14 @@ fun ArticleResponse.toEntity(): ArticleEntity {
         publishedAt = publishedAt,
         lastCommentAt = lastCommentAt,
         publishedTimestamp = publishedTimestamp,
-        readingTimeMinutes = readingTimeMinutes
+        readingTimeMinutes = readingTimeMinutes,
+        cacheKey = cacheKey
     )
 }
 
-fun Article.toEntity(): ArticleEntity {
-    return ArticleEntity(
-        id = id,
-        typeOf = typeOf,
-        title = title,
-        description = description,
-        coverImage = coverImage,
-        readablePublishDate = readablePublishDate,
-        socialImage = socialImage,
-        tagList = tagList,
-        tags = tags,
-        slug = slug,
-        path = path,
-        url = url,
-        canonicalUrl = canonicalUrl,
-        commentsCount = commentsCount,
-        positiveReactionsCount = positiveReactionsCount,
-        publicReactionsCount = publicReactionsCount,
-        collectionId = collectionId,
-        createdAt = createdAt,
-        editedAt = editedAt,
-        crosspostedAt = crosspostedAt,
-        publishedAt = publishedAt,
-        lastCommentAt = lastCommentAt,
-        publishedTimestamp = publishedTimestamp,
-        readingTimeMinutes = readingTimeMinutes
-    )
-}
-
-fun ArticleResponse.toLocal(): ArticleWithRelations {
+fun ArticleResponse.toEntityWithRelation(cacheKey: String) : ArticleWithRelations {
     return ArticleWithRelations(
-        article = toEntity(),
-        user = user.toEntity(id),
-        organization = organization?.toEntity(id),
-        flareTag = flareTag?.toEntity(id)
-    )
-}
-
-fun Article.toLocal(): ArticleWithRelations {
-    return ArticleWithRelations(
-        article = toEntity(),
+        article = toEntity(cacheKey),
         user = user.toEntity(id),
         organization = organization?.toEntity(id),
         flareTag = flareTag?.toEntity(id)
@@ -119,36 +82,32 @@ fun Article.toLocal(): ArticleWithRelations {
 
 fun ArticleWithRelations.toDomain(): Article {
     return Article(
-        typeOf = article.typeOf,
         id = article.id,
+        typeOf = article.typeOf,
         title = article.title,
         description = article.description,
+        coverImage = article.coverImage,
         readablePublishDate = article.readablePublishDate,
+        socialImage = article.socialImage,
+        tagList = article.tagList,
+        tags = article.tags,
         slug = article.slug,
         path = article.path,
         url = article.url,
+        canonicalUrl = article.canonicalUrl,
         commentsCount = article.commentsCount,
+        positiveReactionsCount = article.positiveReactionsCount,
         publicReactionsCount = article.publicReactionsCount,
         collectionId = article.collectionId,
-        publishedTimestamp = article.publishedTimestamp,
-        positiveReactionsCount = article.positiveReactionsCount,
-        coverImage = article.coverImage,
-        socialImage = article.socialImage,
-        canonicalUrl = article.canonicalUrl,
         createdAt = article.createdAt,
         editedAt = article.editedAt,
         crosspostedAt = article.crosspostedAt,
         publishedAt = article.publishedAt,
         lastCommentAt = article.lastCommentAt,
+        publishedTimestamp = article.publishedTimestamp,
         readingTimeMinutes = article.readingTimeMinutes,
-        tagList = article.tagList,
-        tags = article.tags,
-        user = user.toDomain(),
         organization = organization?.toDomain(),
-        flareTag = flareTag?.toDomain()
+        flareTag = flareTag?.toDomain(),
+        user = user.toDomain()
     )
-}
-
-fun List<ArticleWithRelations>.toDomainFromLocal(): List<Article> {
-    return map { it.toDomain() }
 }

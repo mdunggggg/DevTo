@@ -57,5 +57,9 @@ data class ArticleEntity(
     @ColumnInfo(name = "published_timestamp")
     val publishedTimestamp: String,
     @ColumnInfo(name = "reading_time_minutes")
-    val readingTimeMinutes: Int
+    val readingTimeMinutes: Int,
+
+    // Use for offline-first strategy
+    @ColumnInfo(name = "cache_key")
+    val cacheKey: String
 )
