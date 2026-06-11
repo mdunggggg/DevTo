@@ -12,12 +12,11 @@ class OfflineFetchArticleUseCase @Inject constructor(
     private val articleRepository: ArticleRepository
 ) : FlowUseCase<ArticleParam, PagingData<Article>>() {
 
-    override suspend fun invoke(input: ArticleParam): Flow<PagingData<Article>> {
-        validate(input)
+    override suspend fun execute(input: ArticleParam): Flow<PagingData<Article>> {
         return articleRepository.fetchOfflineArticles(input)
     }
 
-    private fun validate(input: ArticleParam) {
+    override fun validate(input: ArticleParam) {
         require(input.page >= 1) { "page must be >= 1" }
         require(input.perPage in 1..50) { "perPage must be in 1..50" }
     }
