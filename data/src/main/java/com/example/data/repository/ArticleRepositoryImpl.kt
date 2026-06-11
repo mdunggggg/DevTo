@@ -33,6 +33,8 @@ class ArticleRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = param.perPage,
+                initialLoadSize = param.perPage,
+                prefetchDistance = 2,
                 enablePlaceholders = false
             ),
             remoteMediator = ArticleRemoteMediator(

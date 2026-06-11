@@ -10,9 +10,10 @@ class FetchArticleUseCase(
     private val articleRepository: ArticleRepository
 ) : UseCase<ArticleParam, Result<List<Article>, Throwable>>() {
 
-    override suspend fun invoke(input: ArticleParam): Result<List<Article>, Throwable> {
-        if (input.page < 1) return Result.Failure(IllegalArgumentException("Page number must be greater than 0"))
-        if (input.perPage > 30) return Result.Failure(IllegalArgumentException("Page max is 30"))
+    override suspend fun execute(input: ArticleParam): Result<List<Article>, Throwable> {
         return articleRepository.fetchArticles(input)
+    }
+
+    override fun validate(input: ArticleParam) {
     }
 }

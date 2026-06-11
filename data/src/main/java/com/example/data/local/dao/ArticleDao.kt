@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.paging.PagingSource
+import com.example.data.local.model.ArticleCacheRef
 import com.example.data.local.model.ArticleEntity
 import com.example.data.local.model.ArticleWithRelations
 import com.example.data.local.model.FlareTagEntity
@@ -30,6 +31,12 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFlareTag(flareTag: FlareTagEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCacheRef(ref: ArticleCacheRef)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCacheRefs(refs: List<ArticleCacheRef>)
+
     @Transaction
     suspend fun insertArticle(article: ArticleWithRelations) {
         insertArticle(article.article)
@@ -43,11 +50,36 @@ interface ArticleDao {
         articles.forEach { insertArticle(it) }
     }
 
-    @Query("DELETE FROM articles WHERE cache_key = :cacheKey")
+    @Transaction
+    suspend fun insertArticlesForCacheKey(
+        articles: List<ArticleWithRelations>,
+        cacheKey: String,
+        startPosition: Int
+    ) {
+        insertArticles(articles)
+        insertCacheRefs(
+            articles.mapIndexed { index, item ->
+                ArticleCacheRef(
+                    cacheKey = cacheKey,
+                    articleId = item.article.id,
+                    position = startPosition + index
+                )
+            }
+        )
+    }
+
+    @Query("DELETE FROM article_cache_refs WHERE cache_key = :cacheKey")
     suspend fun deleteByCacheKey(cacheKey: String)
 
     @Transaction
-    @Query("SELECT * FROM articles WHERE cache_key = :cacheKey")
+    @Query(
+        """
+        SELECT a.* FROM articles AS a
+        INNER JOIN article_cache_refs AS r ON r.article_id = a.id
+        WHERE r.cache_key = :cacheKey
+        ORDER BY r.position ASC
+        """
+    )
     fun getArticlesByCacheKey(cacheKey: String): PagingSource<Int, ArticleWithRelations>
 
     @Query("DELETE FROM articles WHERE id = :articleId")

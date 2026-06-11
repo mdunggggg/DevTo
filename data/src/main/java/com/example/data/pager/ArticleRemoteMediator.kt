@@ -1,5 +1,6 @@
 package com.example.data.pager
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -11,6 +12,7 @@ import com.example.data.local.model.RemoteKey
 import com.example.data.mapper.toEntity
 import com.example.data.mapper.toEntityWithRelation
 import com.example.data.remote.api.ArticleApi
+import com.example.data.remote.model.ArticleResponse
 import com.example.domain.model.Article
 import com.example.domain.model.params.ArticleParam
 import retrofit2.HttpException
@@ -58,6 +60,10 @@ internal class ArticleRemoteMediator(
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
+            Log.d(
+                "ArticleRemoteMediator",
+                "load loadType=$loadType page=$page cacheKey=$cacheKey instance=${System.identityHashCode(this)}"
+            )
             val responseFromAPI = articleApi.getArticles(
                 param.copy(page = page).toQueryMap()
             )
@@ -75,7 +81,11 @@ internal class ArticleRemoteMediator(
                         lastUpdated = System.currentTimeMillis()
                     )
                 )
-                articleDao.insertArticles(responseFromAPI.map {it.toEntityWithRelation(cacheKey)})
+                articleDao.insertArticlesForCacheKey(
+                    articles = responseFromAPI.map(ArticleResponse::toEntityWithRelation),
+                    cacheKey = cacheKey,
+                    startPosition = (page - 1) * param.perPage
+                )
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {

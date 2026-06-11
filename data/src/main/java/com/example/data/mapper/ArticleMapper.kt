@@ -41,7 +41,7 @@ fun List<ArticleResponse>.toDomain(): List<Article> {
     return map { it.toDomain() }
 }
 
-fun ArticleResponse.toEntity(cacheKey: String): ArticleEntity {
+fun ArticleResponse.toEntity(): ArticleEntity {
     return ArticleEntity(
         id = id,
         typeOf = typeOf,
@@ -66,14 +66,13 @@ fun ArticleResponse.toEntity(cacheKey: String): ArticleEntity {
         publishedAt = publishedAt,
         lastCommentAt = lastCommentAt,
         publishedTimestamp = publishedTimestamp,
-        readingTimeMinutes = readingTimeMinutes,
-        cacheKey = cacheKey
+        readingTimeMinutes = readingTimeMinutes
     )
 }
 
-fun ArticleResponse.toEntityWithRelation(cacheKey: String) : ArticleWithRelations {
+fun ArticleResponse.toEntityWithRelation(): ArticleWithRelations {
     return ArticleWithRelations(
-        article = toEntity(cacheKey),
+        article = toEntity(),
         user = user.toEntity(id),
         organization = organization?.toEntity(id),
         flareTag = flareTag?.toEntity(id)
