@@ -10,4 +10,6 @@ interface ArticleRepository {
     suspend fun fetchArticles(params: ArticleParam) : Result<List<Article>, Throwable>
 
     fun fetchOfflineArticles(param: ArticleParam): Flow<PagingData<Article>>
+
+    suspend fun deleteArticlesNotInCache()
 }

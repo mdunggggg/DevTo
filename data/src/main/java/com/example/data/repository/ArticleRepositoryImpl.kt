@@ -49,4 +49,8 @@ class ArticleRepositoryImpl @Inject constructor(
             pagingData.map(ArticleWithRelations::toDomain)
         }
     }
+
+    override suspend fun deleteArticlesNotInCache() {
+        database.articleDao().deleteArticlesNotInCache()
+    }
 }

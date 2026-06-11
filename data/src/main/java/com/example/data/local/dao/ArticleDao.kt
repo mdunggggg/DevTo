@@ -84,4 +84,7 @@ interface ArticleDao {
 
     @Query("DELETE FROM articles WHERE id = :articleId")
     suspend fun deleteArticle(articleId: Int)
+
+    @Query("DELETE FROM articles WHERE id NOT IN (SELECT article_id FROM article_cache_refs)")
+    suspend fun deleteArticlesNotInCache()
 }
